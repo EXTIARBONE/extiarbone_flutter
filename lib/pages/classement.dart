@@ -12,8 +12,14 @@ class Classement extends StatefulWidget {
 class _ClassementState extends State<Classement> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: const Text("classement"),
+    return Scaffold(
+      body: Column(children: [
+        Text("classement"),
+        const SizedBox()
+      ]),
+       
+     
+      
     );
   }
 }
