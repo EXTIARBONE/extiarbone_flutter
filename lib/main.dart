@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import './pages/actions.dart';
+import './pages/classement.dart';
+import './pages/profil.dart';
 
 void main() => runApp(const MyApp());
 
@@ -28,18 +31,9 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'ICI LES ACTIONS DE LA JOURNEE',
-      style: optionStyle,
-    ),
-    Text(
-      'ICI LE CLASSEMENT DES SALARIES',
-      style: optionStyle,
-    ),
-    Text(
-      'PROFIL DU USER',
-      style: optionStyle,
-    ),
+    Event(),
+    Profil(),
+    Classement()
   ];
 
   void _onItemTapped(int index) {
