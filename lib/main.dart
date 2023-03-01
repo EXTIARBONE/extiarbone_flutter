@@ -46,9 +46,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('EXTIARBONE'),
-      ),
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),

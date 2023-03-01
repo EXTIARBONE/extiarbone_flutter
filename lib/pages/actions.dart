@@ -15,38 +15,50 @@ class _EventState extends State<Event> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(children: [
-        const SizedBox(
-          height: 10,
-        ),
-        const Center(child: Text(
-          "BONJOUR NICOLAS",
-          ),  
+      backgroundColor: Colors.amber[50],
+      body: Column(
+        children: [
+          const SizedBox(
+            height: 90,
           ),
-        const SizedBox(
-          height: 15,
-        ),
-        const Text("Vous avez 0 points"),
-        Row(
-          children: [
-            ElevatedButton(
+          const Center(
+            child: Text(
+              "BONJOUR NICOLAS",
+            ),
+          ),
+          const SizedBox(
+            height: 15,
+          ),
+          const Text("Vous avez 0 points"),
+          Row(
+            children: [
+              ElevatedButton(
                 onPressed: () {
                   // ignore: avoid_print
                   print("OK");
                 },
-                child: const Text("Ajouter une action")),
-            const SizedBox(
-              width: 100,
+                child: const Text("Ajouter une action"),
+              ),
+              const SizedBox(
+                width: 100,
+              ),
+            ],
+          ),
+          const Text("Actions Quotidiennes"),
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  ActionContainer(),
+                  ActionContainer(),
+                  ActionContainer(),
+                  ActionContainer(),
+                ],
+              ),
             ),
-          ],
-        ),
-        const Text("Actions Quotidiennes"),
-        ActionContainer(),
-        SizedBox(height: 20,),
-        ActionContainer(),
-        
-       
-      ]),
+          ),
+        ],
+      ),
     );
   }
 }
