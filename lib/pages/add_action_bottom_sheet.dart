@@ -19,12 +19,15 @@ class _AddActionState extends State<AddAction> {
         children: [
           Row(
             children: [
-              const SizedBox(width: 20,),
+              const SizedBox(
+                width: 20,
+              ),
               Column(
                 children: [
                   const SizedBox(height: 40),
-                  Text('Nouvelle Action',
-                  style: GoogleFonts.montserrat(
+                  Text(
+                    'Nouvelle Action',
+                    style: GoogleFonts.montserrat(
                         fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                 ],
@@ -32,7 +35,9 @@ class _AddActionState extends State<AddAction> {
               const SizedBox(),
             ],
           ),
-          const SizedBox(height: 10,),
+          const SizedBox(
+            height: 10,
+          ),
           Padding(
             padding: const EdgeInsets.fromLTRB(20, 8, 20, 4),
             child: TextField(
@@ -79,32 +84,33 @@ class _AddActionState extends State<AddAction> {
                 ),
               ),
               textAlignVertical: TextAlignVertical.center,
-               style: GoogleFonts.montserrat(
-                    fontSize: 16,
-                  ),
+              style: GoogleFonts.montserrat(
+                fontSize: 16,
+              ),
             ),
           ),
-          const SizedBox(height: 40,),
+          const SizedBox(
+            height: 40,
+          ),
           Row(
             children: [
-              const SizedBox(width: 150,),
+              const SizedBox(
+                width: 150,
+              ),
               ElevatedButton(
-                onPressed: () {
-                  
-                },
+                onPressed: () {},
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all<Color>(
                     const Color(0xFF5EB09C),
                   ),
                 ),
                 child: Text(
-                  "Ajouter une action",
+                  "Ajouter l'action",
                   style: GoogleFonts.montserrat(
                     fontSize: 20,
                   ),
                 ),
               ),
-              
             ],
           ),
         ],
