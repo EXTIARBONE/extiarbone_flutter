@@ -117,7 +117,7 @@ class _ClassementState extends State<Classement>
           const SizedBox(height: 50),
           Center(
             child: Container(
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               child: Column(
                 children: [
                   RichText(
@@ -156,6 +156,7 @@ class _ClassementState extends State<Classement>
           const SizedBox(height: 50),
           TabBar(
             controller: _tabController,
+            indicatorColor: Colors.green,
             tabs: const [
               Tab(
                 child: Text(
@@ -171,7 +172,6 @@ class _ClassementState extends State<Classement>
               ),
             ],
           ),
-          const SizedBox(height: 20),
           Expanded(
             child: TabBarView(
               controller: _tabController,
@@ -184,47 +184,54 @@ class _ClassementState extends State<Classement>
                     itemCount: userClassements.length,
                     itemBuilder: (context, index) {
                       final user = userClassements[index];
-                      return Container(
-                        decoration: const BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.white,
-                              offset: Offset(0, 3),
-                            ),
-                          ],
-                        ),
-                        padding: EdgeInsets.all(10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              child: Row(children: [
-                                Text(
-                                  '${index + 1}',
-                                  style: const TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                const SizedBox(width: 10),
-                                Text(
-                                  '${user.firstName} ${user.lastName}',
-                                  style: const TextStyle(
-                                    fontSize: 16,
-                                  ),
-                                ),
-                              ]),
-                            ),
-                            const SizedBox(width: 10),
-                            Text(
-                              '${user.points}',
-                              style: const TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.green,
+                      return Padding(
+                        padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(5),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.2),
+                                spreadRadius: 2,
+                                blurRadius: 5,
+                                offset: const Offset(0, 3),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
+                          padding: EdgeInsets.all(10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                child: Row(children: [
+                                  Text(
+                                    '${index + 1}',
+                                    style: const TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 10),
+                                  Text(
+                                    '${user.firstName} ${user.lastName}',
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ]),
+                              ),
+                              const SizedBox(width: 10),
+                              Text(
+                                '${user.points}',
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.green,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       );
                     },
