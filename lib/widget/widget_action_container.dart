@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class ActionContainer extends StatelessWidget {
   const ActionContainer({super.key});
@@ -10,7 +11,7 @@ class ActionContainer extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
-          width: 300,
+          width: 340,
           height: 150,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10.0),
@@ -32,19 +33,35 @@ class ActionContainer extends StatelessWidget {
                 child: Row(
                   children: [
                     RichText(
-                      text: const TextSpan(
-                        style: TextStyle(
+                      text: TextSpan(
+                        style: const TextStyle(
                           fontSize: 16,
                           color: Colors.black,
                         ),
                         children: <TextSpan>[
-                          TextSpan(text: 'Trajet jusqu au bureau'),
-                          TextSpan(text: '\nRapporte 1,7 points'),
+                          TextSpan(
+                            text: 'Trajet jusqu au bureau',
+                            style: GoogleFonts.montserrat(
+                              fontSize: 17,
+                            ),
+                          ),
+                          TextSpan(text: '\n+',
+                          style: GoogleFonts.montserrat(
+                              fontSize: 17,
+                            ),
+                          ),
+                          TextSpan(
+                            text: ' 100 points',
+                            style: GoogleFonts.montserrat(
+                              fontSize: 17,
+                              color: const Color(0xFF5EB09C),
+                            ),
+                          ),
                         ],
                       ),
                     ),
                     const SizedBox(
-                      width: 50,
+                      width: 70,
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 20),
@@ -79,9 +96,18 @@ class ActionContainer extends StatelessWidget {
                       width: 10,
                     ),
                     ElevatedButton(
-                      onPressed: () {},
-                      child: const Text("Ajouter"),
-                    ),
+                        onPressed: () {},
+                        // ignore: prefer_const_constructors
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                            const Color(0xFFF4B55F),
+                          ),
+                        ),
+                        child: Text("Ajouter",
+                        style: GoogleFonts.montserrat(
+                            fontSize: 17,
+                          ),
+                        )),
                     const SizedBox(
                       width: 120,
                     ),
