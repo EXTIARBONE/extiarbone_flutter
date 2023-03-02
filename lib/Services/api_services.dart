@@ -7,16 +7,21 @@ class ApiServices {
   static const _urlApi = "https://extiarbone-back.azurewebsites.net";
 
   static Future<void> fetchDataLogin(email, password) async {
-    final response = await http.get(Uri.parse('$_urlApi/token'));
+    final http.Response response = await http.post(
+      (Uri.parse('$_urlApi/auth/login')),
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode(<String, String>{'mail': email, 'password': password}),
+    );
+
     if (response.statusCode == 200) {
       final jsonResponse = json.decode(response.body);
-      String token = jsonResponse['data'];
+      String token = jsonResponse['token'];
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setString('token', token);
     } else {
-      //throw Exception('Erreur de connexion');
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.setString('token', "azerty");
+      throw Exception('Erreur de connexion');
     }
   }
 
