@@ -25,7 +25,36 @@ class _ProfilState extends State<Profil> {
     );
   }
 
+  late String name = '';
+  late String surname = '';
+
   @override
+  void initState() {
+    super.initState();
+    _setPrefs();
+  }
+
+  Future<String?> _getPrefsName() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? name = prefs.getString('name');
+    return name;
+  }
+  Future<String?> _getPrefsSurname() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? surname = prefs.getString('surname');
+    return surname;
+  }
+
+  void _setPrefs() async {
+    String? prefsName = await _getPrefsName();
+    String? prefsSurname = await _getPrefsSurname();
+    setState(() {
+      name = prefsName ?? '';
+      surname = prefsSurname ?? '';
+    });
+    print("name : $name");
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
@@ -38,7 +67,7 @@ class _ProfilState extends State<Profil> {
               ),
               Container(
                 child: Text(
-                  "Nicolas Lacoste",
+                  "$name $surname",
                   style: GoogleFonts.montserrat(
                     fontSize: 30,
                     fontWeight: FontWeight.bold,

@@ -5,6 +5,7 @@ import 'package:flutter_extiarbonne/pages/add_action_bottom_sheet.dart';
 import 'package:flutter_extiarbonne/widget/action_widget.dart';
 import 'package:flutter_extiarbonne/widget/widget_action_container.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Event extends StatefulWidget {
   const Event({super.key});
@@ -13,8 +14,37 @@ class Event extends StatefulWidget {
   State<Event> createState() => _EventState();
 }
 
+Future<String?> _getPrefs() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String? name = prefs.getString('name');
+  return name;
+}
+
+Future<String?> _getPrefsScore() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String? score = prefs.getString('score');
+  return score;
+}
+
 class _EventState extends State<Event> {
+  late String name = '';
+  late String score = '';
   @override
+  void initState() {
+    super.initState();
+    _setPrefs();
+  }
+
+  void _setPrefs() async {
+    String? prefsName = await _getPrefs();
+    String? prefsScore = await _getPrefsScore();
+    setState(() {
+      name = prefsName ?? '';
+      score = prefsScore ?? '';
+    });
+    print("name : $name");
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFFCFCFC),
@@ -28,7 +58,7 @@ class _EventState extends State<Event> {
               children: [
                 const SizedBox(width: 30),
                 Text(
-                  "Bonjour Théo",
+                  "Bonjour $name",
                   style: GoogleFonts.montserrat(
                     fontSize: 30,
                     fontWeight: FontWeight.bold,
@@ -53,7 +83,7 @@ class _EventState extends State<Event> {
                 ),
               ),
               Text(
-                "0 points",
+                "$score points",
                 style: GoogleFonts.montserrat(
                   fontSize: 20,
                   color: const Color(0xFF5EB09C),

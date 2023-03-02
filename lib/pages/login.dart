@@ -26,7 +26,7 @@ class _LoginPageState extends State<LoginPage> {
   void _checkLogin() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString('token');
-    if (token != null && token!.isNotEmpty) {
+    if (token != null && token.isNotEmpty) {
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => const Home()),
@@ -53,7 +53,7 @@ class _LoginPageState extends State<LoginPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Text(
                   "Connexion",
                   style: GoogleFonts.montserrat(
@@ -61,7 +61,7 @@ class _LoginPageState extends State<LoginPage> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(height: 30),
+                const SizedBox(height: 30),
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10.0),
@@ -80,7 +80,7 @@ class _LoginPageState extends State<LoginPage> {
                     padding: const EdgeInsets.all(18.0),
                     child: Column(
                       children: [
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         TextFormField(
                           decoration: const InputDecoration(
                             labelText: 'Email',
@@ -97,7 +97,7 @@ class _LoginPageState extends State<LoginPage> {
                             _email = value!;
                           },
                         ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         TextFormField(
                           decoration: const InputDecoration(
                             labelText: 'Mot de passe',
@@ -114,11 +114,11 @@ class _LoginPageState extends State<LoginPage> {
                             _password = value!;
                           },
                         ),
-                        SizedBox(height: 40),
+                        const SizedBox(height: 40),
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            minimumSize: Size.fromHeight(40),
-                            backgroundColor: Color(0xFF5EB09C),
+                            minimumSize: const Size.fromHeight(40),
+                            backgroundColor: const Color(0xFF5EB09C),
                           ),
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
@@ -135,16 +135,23 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                 ),
-                SizedBox(height: 30),
+                const SizedBox(height: 30),
                 ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
+                          style: ElevatedButton.styleFrom(
+                            minimumSize: const Size.fromHeight(40),
+                            backgroundColor: const Color(0xFF5EB09C),
+                          ),
+                          onPressed: () {
+                            Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => SignUp()),
+                      MaterialPageRoute(builder: (context) => const SignUp()),
                     );
-                  },
-                  child: Text("S'inscrire"),
-                ),
+                          },
+                          child: Text(
+                            "S'inscrire",
+                          style: GoogleFonts.montserrat(fontSize: 20),
+                    ),
+                  ),
               ],
             ),
           ),
