@@ -35,11 +35,22 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _login(String email, String password) async {
-    await ApiServices.fetchDataLogin(email, password);
-    /* ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(text)),
-    ); */
-    _checkLogin();
+    try {
+      await ApiServices.fetchDataLogin(email, password);
+      _checkLogin();
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e.toString())),
+      );
+    }
+
+    try {
+      await ApiServices.fetchDataLogin(email, password);
+    } on LoginException catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e.toString())),
+      );
+    }
   }
 
   @override
@@ -137,21 +148,21 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 const SizedBox(height: 30),
                 ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            minimumSize: const Size.fromHeight(40),
-                            backgroundColor: const Color(0xFF5EB09C),
-                          ),
-                          onPressed: () {
-                            Navigator.push(
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: const Size.fromHeight(40),
+                    backgroundColor: const Color(0xFF5EB09C),
+                  ),
+                  onPressed: () {
+                    Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => const SignUp()),
                     );
-                          },
-                          child: Text(
-                            "S'inscrire",
-                          style: GoogleFonts.montserrat(fontSize: 20),
-                    ),
+                  },
+                  child: Text(
+                    "S'inscrire",
+                    style: GoogleFonts.montserrat(fontSize: 20),
                   ),
+                ),
               ],
             ),
           ),

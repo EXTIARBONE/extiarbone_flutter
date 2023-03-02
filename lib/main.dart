@@ -14,6 +14,7 @@ class MyApp extends StatelessWidget {
       title: _title,
       home: const MyStatefulWidget(),
       theme: ThemeData(fontFamily: 'Montserrat'),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
@@ -28,7 +29,7 @@ class MyStatefulWidget extends StatefulWidget {
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
         body: Center(
       child: LoginPage(),
     ));
