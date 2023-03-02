@@ -41,7 +41,7 @@ class _EventState extends State<Event> {
           ),
           Row(
             children: [
-              SizedBox(
+              const SizedBox(
                 width: 30,
               ),
               Text(
@@ -94,9 +94,7 @@ class _EventState extends State<Event> {
           Text(
             "Actions Quotidiennes :",
             style: GoogleFonts.montserrat(
-              fontSize: 20,
-              fontWeight: FontWeight.bold
-            ),
+                fontSize: 20, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 20),
           Expanded(
