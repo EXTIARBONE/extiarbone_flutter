@@ -12,14 +12,14 @@ class UserClassement {
   });
 
   factory UserClassement.fromJson(Map<String, dynamic> json) => UserClassement(
-        firstName: json["firstName"] as String,
-        lastName: json["lastName"] as String,
-        points: json["points"] as int,
+        firstName: json["name"] as String,
+        lastName: json["surname"] as String,
+        points: json["score"] as int,
       );
 
   Map<String, dynamic> toJson() => {
-        "firstName": firstName,
-        "lastName": lastName,
-        "points": points,
+        "name": firstName,
+        "surname": lastName,
+        "score": points,
       };
 }

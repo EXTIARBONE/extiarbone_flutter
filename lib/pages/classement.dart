@@ -5,6 +5,7 @@ import 'package:flutter_extiarbonne/Services/reward.dart';
 import 'package:flutter_extiarbonne/Services/userClassement.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Classement extends StatefulWidget {
   const Classement({Key? key}) : super(key: key);
@@ -17,25 +18,32 @@ class _ClassementState extends State<Classement>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
+  bool _isLoading = true;
+
   String _points = '0';
-  String _date = '12/03/2023';
-  List<Reward> rewards = [
-    Reward(id: 1, title: "Test", description: "Description", points: 12),
-    Reward(id: 2, title: "Voyage", description: "Description", points: 200),
-    Reward(id: 3, title: "Mcdo", description: "Description", points: 300),
-    Reward(id: 4, title: "Mcdo", description: "Description", points: 300)
-  ];
-  List<UserClassement> userClassements = [
-    UserClassement(firstName: "Noé", lastName: "Noé", points: 1269),
-    UserClassement(firstName: "Manu", lastName: "Manu", points: 48),
-    UserClassement(firstName: "Nicolas", lastName: "Lacoste", points: 24),
-    UserClassement(firstName: "Théo", lastName: "Gamiz", points: 12),
-  ];
+  late DateTime now;
+  late DateTime endOfMonth;
+  String _date = '';
+  List<Reward> _rewards = [];
+  List<UserClassement> userClassements = [];
 
   @override
   void initState() {
     super.initState();
+    _loadData();
+    _fetchDataUserClassement();
     _tabController = TabController(length: 2, vsync: this);
+    now = DateTime.now();
+    endOfMonth = DateTime(now.year, now.month + 1, 0);
+    _date =
+        '${endOfMonth.day.toString().padLeft(2, '0')}/${now.month.toString().padLeft(2, '0')}/${now.year}';
+  }
+
+  Future<void> _loadData() async {
+    _fetchDataReward();
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   void _fetchData() async {
@@ -52,17 +60,23 @@ class _ClassementState extends State<Classement>
     }
   }
 
-  Future<void> _fetchDataUserClassement() async {
-    final response =
-        await http.get(Uri.parse('https://monapi.com/userclassement'));
+  void _fetchDataUserClassement() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString('token');
+    final response = await http.get(
+      Uri.parse('https://extiarbone-back.azurewebsites.net/ranking/'),
+      headers: {
+        "Authorization": "Bearer $token",
+      },
+    );
     if (response.statusCode == 200) {
       final jsonResponse = json.decode(response.body);
-      List<dynamic> data = jsonResponse['data'];
+      List<dynamic> data = jsonResponse;
       List<UserClassement> userClassements = data
           .map((element) => UserClassement(
-                firstName: element['firstName'],
-                lastName: element['lastName'],
-                points: element['points'],
+                firstName: element['name'],
+                lastName: element['surname'],
+                points: element['score'],
               ))
           .toList();
       userClassements.sort((a, b) => b.points.compareTo(a.points));
@@ -74,25 +88,111 @@ class _ClassementState extends State<Classement>
     }
   }
 
-  Future<void> _fetchDataReward() async {
-    final response = await http.get(Uri.parse('https://monapi.com/data'));
+  void _fetchDataReward() async {
+    final response = await http.get(Uri.parse(
+        'https://extiarbone-back.azurewebsites.net/reward/getAllRewardsAvailable'));
     if (response.statusCode == 200) {
       final jsonResponse = json.decode(response.body);
-      List<dynamic> data = jsonResponse['data'];
-      List<Reward> rewards = data
+      List<dynamic> data = jsonResponse["rewards"];
+      List<Reward> _rewards = data
           .map((element) => Reward(
-                id: element['id'],
-                title: element['title'],
-                description: element['description'],
-                points: element['points'],
+                id: element['_id'],
+                gift: element["gift"],
               ))
           .toList();
       setState(() {
-        this.rewards = rewards;
+        this._rewards = _rewards;
       });
     } else {
       throw Exception('Erreur lors du chargements des lots');
     }
+  }
+
+  /* @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: _isLoading ? buildShimmerList() : buildRewardList(),
+    );
+  } */
+
+  Widget buildRewardList() {
+    return ListView.builder(
+      itemCount: _rewards.length,
+      itemBuilder: (context, index) {
+        Reward reward = _rewards[index];
+        var medalColor = Colors.grey;
+        var medalIcon;
+        switch (index) {
+          case 0:
+            medalColor = Colors.amber;
+            medalIcon = Icons.looks_one;
+            break;
+          case 1:
+            medalColor = Colors.grey;
+            medalIcon = Icons.looks_two;
+            break;
+          case 2:
+            medalColor = Colors.brown;
+            medalIcon = Icons.looks_3;
+            break;
+          default:
+            medalColor = Colors.grey;
+            medalIcon = Icons.circle;
+        }
+
+        return Container(
+          margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(5),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.2),
+                spreadRadius: 2,
+                blurRadius: 5,
+                offset: const Offset(0, 3),
+              ),
+            ],
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(10),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: medalColor,
+                  ),
+                  child: Icon(
+                    medalIcon,
+                    color: Colors.white,
+                    size: 20,
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        reward.gift,
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 10)
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 
   @override
@@ -136,7 +236,7 @@ class _ClassementState extends State<Classement>
                           style: const TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
-                            color: Colors.green,
+                            color: Color(0xFF5EB09C),
                           ),
                         ),
                       ],
@@ -156,7 +256,7 @@ class _ClassementState extends State<Classement>
           const SizedBox(height: 50),
           TabBar(
             controller: _tabController,
-            indicatorColor: Colors.green,
+            indicatorColor: Color(0xFF5EB09C),
             tabs: const [
               Tab(
                 child: Text(
@@ -178,7 +278,7 @@ class _ClassementState extends State<Classement>
               children: [
                 RefreshIndicator(
                   onRefresh: () async {
-                    _fetchDataReward;
+                    _fetchDataUserClassement();
                   },
                   child: ListView.builder(
                     itemCount: userClassements.length,
@@ -227,7 +327,7 @@ class _ClassementState extends State<Classement>
                                 style: const TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.green,
+                                  color: Color(0xFF5EB09C),
                                 ),
                               ),
                             ],
@@ -239,12 +339,12 @@ class _ClassementState extends State<Classement>
                 ),
                 RefreshIndicator(
                   onRefresh: () async {
-                    _fetchDataReward;
+                    _fetchDataReward();
                   },
                   child: ListView.builder(
-                    itemCount: rewards.length,
+                    itemCount: _rewards.length,
                     itemBuilder: (context, index) {
-                      Reward reward = rewards[index];
+                      Reward reward = _rewards[index];
                       var medalColor = Colors.grey;
                       var medalIcon;
                       switch (index) {
@@ -303,17 +403,13 @@ class _ClassementState extends State<Classement>
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      reward.title,
+                                      reward.gift,
                                       style: const TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                    const SizedBox(height: 10),
-                                    Text(
-                                      reward.description,
-                                      style: const TextStyle(fontSize: 16),
-                                    ),
+                                    const SizedBox(height: 10)
                                   ],
                                 ),
                               ),
