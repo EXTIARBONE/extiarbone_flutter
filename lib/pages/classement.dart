@@ -43,7 +43,7 @@ class _ClassementState extends State<Classement>
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: const [
                   Text(
-                    "Texte 1",
+                    "12 points",
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
@@ -51,7 +51,7 @@ class _ClassementState extends State<Classement>
                   ),
                   SizedBox(height: 10),
                   Text(
-                    "Texte 2",
+                    "Se termine le 31/03/2023",
                     style: TextStyle(
                       fontSize: 14,
                     ),
