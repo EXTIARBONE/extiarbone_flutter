@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Profil extends StatefulWidget {
   const Profil({super.key});
@@ -15,87 +16,130 @@ class _ProfilState extends State<Profil> {
     return Scaffold(
       body: Column(
         children: [
-          SizedBox(height: 70),
-          Container(
-             child: Text("Nicolas Lacoste"),
-          ),
-          SizedBox(height: 20,),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(10, 10, 10, 5),
-            child: Container(
-              width: 500,
-              height: 50,
-              decoration: BoxDecoration(
-                color: Colors.amberAccent,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
-                    spreadRadius: 5,
-                    blurRadius: 7,
-                    offset: Offset(0, 3),
+          const SizedBox(height: 70),
+          Row(
+            children: [
+              SizedBox(width: 10,),
+              Container(
+                child:  Text("Nicolas Lacoste",
+                style: GoogleFonts.montserrat(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
                   ),
-                ],
+                ),
               ),
-              child: Row(
-                children: [
-                  SizedBox(width: 340),
-                  Icon(Icons.keyboard_arrow_right),
-                ],
-              ),
-            )
-
+            ],
+          ),
+          const SizedBox(
+            height: 20,
           ),
           Padding(
-          padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
-          child: Container(
-              width: 500,
-              height: 50,
-              decoration: BoxDecoration(
-                color: Colors.amberAccent,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
-                    spreadRadius: 5,
-                    blurRadius: 7,
-                    offset: Offset(0, 3),
+            padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+            child: GestureDetector(
+                onTap: () {
+                  // code à exécuter lorsque le conteneur est cliqué
+                  print("OOOOOo");
+                },
+                child: Container(
+                  width: 500,
+                  height: 50,
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.black,
+                      width: 0.2,
+                    ),
                   ),
-                ],
-              ),
-              child: Row(
-                children: [
-                  SizedBox(width: 340),
-                  Icon(Icons.keyboard_arrow_right),
-                ],
-              ),
-            )
-        ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
-          child: Container(
-              width: 500,
-              height: 50,
-              decoration: BoxDecoration(
-                color: Colors.amberAccent,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
-                    spreadRadius: 5,
-                    blurRadius: 7,
-                    offset: Offset(0, 3),
+                  child: Row(
+                    children: const [
+                      SizedBox(width: 10),
+                      Text("Mes informations"),
+                      SizedBox(width: 235),
+                      Icon(Icons.keyboard_arrow_right),
+                    ],
                   ),
-                ],
+                )),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+            child: GestureDetector(
+                onTap: () {
+                  // code à exécuter lorsque le conteneur est cliqué
+                  print("OOOOOo");
+                },
+                child: Container(
+                  width: 500,
+                  height: 50,
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.black,
+                      width: 0.2,
+                    ),
+                  ),
+                  child: Row(
+                    children: const [
+                      SizedBox(width: 10),
+                      Text("Mes recompenses"),
+                      SizedBox(width: 225),
+                      Icon(Icons.keyboard_arrow_right),
+                    ],
+                  ),
+                )),
+          ),
+          Padding(
+              padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+              child: GestureDetector(
+                  onTap: () {
+                    // code à exécuter lorsque le conteneur est cliqué
+                    print("OOOOOo");
+                  },
+                  child: Container(
+                    width: 500,
+                    height: 50,
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.black,
+                        width: 0.2,
+                      ),
+                    ),
+                    child: Row(
+                      children: const [
+                         SizedBox(width: 10),
+                         Text("Mon historique de points"),
+                         SizedBox(width: 185),
+                         Icon(Icons.keyboard_arrow_right),
+                      ],
+                    ),
+                  ))),
+          const SizedBox(
+            height: 400,
+          ),
+          ElevatedButton(
+            onPressed: () {
+              // code à exécuter lorsque le bouton est cliqué
+            },
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all<Color>(
+                Color.fromARGB(255, 255, 255, 255),
               ),
-              child: Row(
-                children: [
-                  SizedBox(width: 340),
-                  Icon(Icons.keyboard_arrow_right),
-                ],
+              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(2.0),
+                  side: const BorderSide(color: Colors.black),
+                ),
               ),
-            )
-        ),
+            ),
+            child: Column(
+              children: [
+                Text(
+                  "Deconnexion",
+                  style:
+                      GoogleFonts.montserrat(fontSize: 20, color: Colors.black),
+                ),
+              ],
+            ),
+          )
         ],
-      )
-      
+      ),
     );
   }
 }
