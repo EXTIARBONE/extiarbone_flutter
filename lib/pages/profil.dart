@@ -4,6 +4,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_extiarbonne/pages/home.dart';
 import 'package:flutter_extiarbonne/pages/login.dart';
+import 'package:flutter_extiarbonne/widget/loyality_card.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -124,7 +125,18 @@ class _ProfilState extends State<Profil> {
                     ),
                   ))),
           const SizedBox(
-            height: 400,
+            height: 200,
+          ),
+          Column(
+            children: [
+              LoyaltyCard(
+                clientName: 'John Doe',
+                loyaltyPoints: 150,
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 100,
           ),
           ElevatedButton(
             onPressed: () {
