@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:flutter_extiarbonne/pages/home.dart';
 import 'package:flutter_extiarbonne/pages/login.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Profil extends StatefulWidget {
   const Profil({super.key});
@@ -12,6 +15,15 @@ class Profil extends StatefulWidget {
 }
 
 class _ProfilState extends State<Profil> {
+  void _disconnect() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('token');
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const LoginPage()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -92,10 +104,7 @@ class _ProfilState extends State<Profil> {
           Padding(
               padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
               child: GestureDetector(
-                  onTap: () {
-                    // code à exécuter lorsque le conteneur est cliqué
-                    print("OOOOOo");
-                  },
+                  onTap: () {},
                   child: Container(
                     width: 500,
                     height: 50,
@@ -119,10 +128,7 @@ class _ProfilState extends State<Profil> {
           ),
           ElevatedButton(
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => LoginPage()),
-              );
+              _disconnect();
             },
             style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all<Color>(

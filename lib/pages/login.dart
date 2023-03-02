@@ -26,7 +26,7 @@ class _LoginPageState extends State<LoginPage> {
   void _checkLogin() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString('token');
-    if (token!.isNotEmpty) {
+    if (token != null && token!.isNotEmpty) {
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => const Home()),
