@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_extiarbonne/pages/home.dart';
+import 'package:flutter_extiarbonne/pages/sign_up.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -65,6 +66,19 @@ class _LoginPageState extends State<LoginPage> {
                   } */
                 },
                 child: Text('Se connecter'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                
+                  /* if (_formKey.currentState!.validate()) {
+                    _formKey.currentState!.save();
+                  } */
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SignUp()),
+                  );
+                },
+                child: Text("S'inscrire"),
               ),
             ],
           ),
