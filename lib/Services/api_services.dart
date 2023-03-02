@@ -18,8 +18,21 @@ class ApiServices {
     if (response.statusCode == 200) {
       final jsonResponse = json.decode(response.body);
       String token = jsonResponse['token'];
+      String name = jsonResponse['name'];
+      String surname = jsonResponse['surname'];
+      String mail = jsonResponse['mail'];
+      String userId = jsonResponse['userId'];
+      String score = jsonResponse['score'].toString();
+      String role = jsonResponse['role'];
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setString('token', token);
+      prefs.setString('name', name);
+      prefs.setString('surname', surname);
+      prefs.setString('mail', mail);
+      prefs.setString('userId', userId);
+      prefs.setString('score', score);
+      prefs.setString('role', role);
+
     } else {
       throw Exception('Erreur de connexion');
     }
