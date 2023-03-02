@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:flutter_extiarbonne/pages/home.dart';
+import 'package:flutter_extiarbonne/pages/login.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Profil extends StatefulWidget {
   const Profil({super.key});
@@ -11,6 +15,15 @@ class Profil extends StatefulWidget {
 }
 
 class _ProfilState extends State<Profil> {
+  void _disconnect() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('token');
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const LoginPage()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,10 +32,13 @@ class _ProfilState extends State<Profil> {
           const SizedBox(height: 70),
           Row(
             children: [
-              SizedBox(width: 10,),
+              SizedBox(
+                width: 10,
+              ),
               Container(
-                child:  Text("Nicolas Lacoste",
-                style: GoogleFonts.montserrat(
+                child: Text(
+                  "Nicolas Lacoste",
+                  style: GoogleFonts.montserrat(
                     fontSize: 30,
                     fontWeight: FontWeight.bold,
                   ),
@@ -88,10 +104,7 @@ class _ProfilState extends State<Profil> {
           Padding(
               padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
               child: GestureDetector(
-                  onTap: () {
-                    // code à exécuter lorsque le conteneur est cliqué
-                    print("OOOOOo");
-                  },
+                  onTap: () {},
                   child: Container(
                     width: 500,
                     height: 50,
@@ -103,10 +116,10 @@ class _ProfilState extends State<Profil> {
                     ),
                     child: Row(
                       children: const [
-                         SizedBox(width: 10),
-                         Text("Mon historique de points"),
-                         SizedBox(width: 185),
-                         Icon(Icons.keyboard_arrow_right),
+                        SizedBox(width: 10),
+                        Text("Mon historique de points"),
+                        SizedBox(width: 185),
+                        Icon(Icons.keyboard_arrow_right),
                       ],
                     ),
                   ))),
@@ -115,7 +128,7 @@ class _ProfilState extends State<Profil> {
           ),
           ElevatedButton(
             onPressed: () {
-              // code à exécuter lorsque le bouton est cliqué
+              _disconnect();
             },
             style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all<Color>(

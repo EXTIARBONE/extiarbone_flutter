@@ -48,7 +48,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
             label: 'Actions',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.business),
+            icon: Icon(Icons.view_list_rounded),
             label: 'Classement',
           ),
           BottomNavigationBarItem(
@@ -57,7 +57,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[800],
+        selectedItemColor: const Color(0xFF5EB09C),
         onTap: _onItemTapped,
       ),
     );
