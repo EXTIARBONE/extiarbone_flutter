@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_extiarbonne/pages/home.dart';
+import 'package:flutter_extiarbonne/pages/login.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class SignUp extends StatefulWidget {
@@ -21,35 +22,35 @@ class _SignUpState extends State<SignUp> {
           child: Column(
             children: [
               SizedBox(height: 200),
-              Text("Creer un compte",
-              style: GoogleFonts.montserrat(
+              Text(
+                "Créer un compte",
+                style: GoogleFonts.montserrat(
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               SizedBox(height: 30),
               Container(
-                 decoration: BoxDecoration(
+                decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10.0),
                   color: Colors.white,
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.grey.withOpacity(0.5), // couleur de l'ombre
-                      spreadRadius: 3, // rayon de dispersion
-                      blurRadius: 7, // flou de l'ombre
-                      offset: const Offset(
-                          0, 3), // position de l'ombre par rapport au container
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 3,
+                      blurRadius: 7,
+                      offset: const Offset(0, 3),
                     ),
                   ],
                 ),
-                width: 285,
+                width: 290,
                 height: 400,
                 child: Column(
                   children: [
                     SizedBox(height: 10),
                     Row(
-                      children: [
-                        SizedBox(width:10),
+                      children: const [
+                        SizedBox(width: 10),
                         Text("Pseudo"),
                         SizedBox(),
                       ],
@@ -71,7 +72,7 @@ class _SignUpState extends State<SignUp> {
                     ),
                     SizedBox(height: 10),
                     Row(
-                      children: [
+                      children: const [
                         SizedBox(width: 10),
                         Text("Mail"),
                         SizedBox(),
@@ -94,7 +95,7 @@ class _SignUpState extends State<SignUp> {
                     ),
                     SizedBox(height: 10),
                     Row(
-                      children: [
+                      children: const [
                         SizedBox(width: 10),
                         Text("Mot de passe"),
                         SizedBox(),
@@ -137,7 +138,20 @@ class _SignUpState extends State<SignUp> {
                     ),
                   ],
                 ),
-              )
+              ),
+              SizedBox(height: 30),
+              ElevatedButton(
+                onPressed: () {
+                  /* if (_formKey.currentState!.validate()) {
+                    _formKey.currentState!.save();
+                  } */
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => LoginPage()),
+                  );
+                },
+                child: Text("Se connecter"),
+              ),
             ],
           ),
         ),

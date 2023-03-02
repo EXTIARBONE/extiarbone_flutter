@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_extiarbonne/pages/add_action_bottom_sheet.dart';
+import 'package:flutter_extiarbonne/widget/action_widget.dart';
 import 'package:flutter_extiarbonne/widget/widget_action_container.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -20,14 +21,14 @@ class _EventState extends State<Event> {
       body: Column(
         children: [
           const SizedBox(
-            height: 70,
+            height: 90,
           ),
           Center(
             child: Row(
               children: [
-                SizedBox(width: 30),
+                const SizedBox(width: 30),
                 Text(
-                  "BONJOUR NICOLAS",
+                  "Bonjour Théo",
                   style: GoogleFonts.montserrat(
                     fontSize: 30,
                     fontWeight: FontWeight.bold,
@@ -37,7 +38,7 @@ class _EventState extends State<Event> {
             ),
           ),
           const SizedBox(
-            height: 15,
+            height: 10,
           ),
           Row(
             children: [
@@ -48,6 +49,7 @@ class _EventState extends State<Event> {
                 "Vous avez ",
                 style: GoogleFonts.montserrat(
                   fontSize: 20,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
               Text(
@@ -55,6 +57,7 @@ class _EventState extends State<Event> {
                 style: GoogleFonts.montserrat(
                   fontSize: 20,
                   color: const Color(0xFF5EB09C),
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ],
@@ -89,30 +92,46 @@ class _EventState extends State<Event> {
             ],
           ),
           const SizedBox(
-            height: 20,
+            height: 30,
           ),
           Row(
             children: [
-              SizedBox(width: 30,),
+              const SizedBox(
+                width: 30,
+              ),
               Text(
                 "Actions Quotidiennes :",
                 style: GoogleFonts.montserrat(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold
-                ),
+                    fontSize: 20, fontWeight: FontWeight.bold),
               ),
-              SizedBox()
+              const SizedBox()
             ],
           ),
           const SizedBox(height: 20),
           Expanded(
             child: SingleChildScrollView(
               child: Column(
-                children: const [
-                  ActionContainer(),
-                  ActionContainer(),
-                  ActionContainer(),
-                  ActionContainer(),
+                children: [
+                  ActionContainer(
+                    actionsWidget: [
+                      ActionWidget(
+                          title: "Transport en commun",
+                          points: 12,
+                          url: "transport"),
+                      ActionWidget(
+                          title: "Transport en commun",
+                          points: 12,
+                          url: "test"),
+                      ActionWidget(
+                          title: "Transport en commun",
+                          points: 12,
+                          url: "vélo"),
+                      ActionWidget(
+                          title: "Transport en commun",
+                          points: 12,
+                          url: "transport")
+                    ],
+                  )
                 ],
               ),
             ),
