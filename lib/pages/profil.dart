@@ -13,7 +13,7 @@ class _ProfilState extends State<Profil> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: const Text("profile"),
+      child: const Text("profil"),
     );
   }
 }

@@ -1,25 +1,101 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 
 class Classement extends StatefulWidget {
-  const Classement({super.key});
+  const Classement({Key? key}) : super(key: key);
 
   @override
   State<Classement> createState() => _ClassementState();
 }
 
-class _ClassementState extends State<Classement> {
+class _ClassementState extends State<Classement>
+    with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 2, vsync: this);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(children: [
-        Text("classement"),
-        const SizedBox()
-      ]),
-       
-     
-      
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SizedBox(
+            height: 90,
+          ),
+          const Text(
+            "Classement",
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 20),
+          Card(
+            elevation: 10,
+            child: Container(
+              width: double.infinity,
+              padding: EdgeInsets.all(10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: const [
+                  Text(
+                    "Texte 1",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    "Texte 2",
+                    style: TextStyle(
+                      fontSize: 14,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 20),
+          TabBar(
+            controller: _tabController,
+            tabs: const [
+              Tab(
+                child: Text(
+                  'Employés',
+                  style: TextStyle(color: Colors.black),
+                ),
+              ),
+              Tab(
+                child: Text(
+                  'Lots',
+                  style: TextStyle(color: Colors.black),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 20),
+          Expanded(
+            child: TabBarView(
+              controller: _tabController,
+              children: const [
+                // Contenu du premier onglet
+                Center(
+                  child: Text('Contenu de la liste'),
+                ),
+                // Contenu du deuxième onglet
+                Center(
+                  child: Text('Contenu de la liste'),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
