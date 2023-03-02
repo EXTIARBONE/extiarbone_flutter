@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  MaterialApp(
+    return MaterialApp(
       title: _title,
       home: const MyStatefulWidget(),
       theme: ThemeData(fontFamily: 'Montserrat'),
@@ -33,8 +33,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
     Event(),
-    Profil(),
-    Classement()
+    Classement(),
+    Profil()
   ];
 
   void _onItemTapped(int index) {
