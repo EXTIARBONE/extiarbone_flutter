@@ -25,6 +25,22 @@ class ApiServices {
     }
   }
 
+   static Future<void> signUp(name, surname, mail, password) async {
+    final http.Response response = await http.post(
+      (Uri.parse('$_urlApi/auth/subscribe')),
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode(<String, String>{'name': name, 'surname': surname, 'mail': mail, 'password': password}),
+    );
+
+    if (response.statusCode == 200) {
+      print("Compte cree");
+    } else {
+      throw Exception('Erreur de connexion');
+    }
+  }
+
   static Future<List<User>> getiosUsers() async {
     final response = await http.get(
       Uri.parse("https://democracity-api.herokuapp.com/androidusers"),

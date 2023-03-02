@@ -137,14 +137,21 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 SizedBox(height: 30),
                 ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
+                          style: ElevatedButton.styleFrom(
+                            minimumSize: Size.fromHeight(40),
+                            backgroundColor: Color(0xFF5EB09C),
+                          ),
+                          onPressed: () {
+                            Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => SignUp()),
                     );
-                  },
-                  child: Text("S'inscrire"),
-                ),
+                          },
+                          child: Text(
+                            "S'inscrire",
+                            style: GoogleFonts.montserrat(fontSize: 20),
+                          ),
+                        ),
               ],
             ),
           ),
