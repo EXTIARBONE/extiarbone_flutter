@@ -30,7 +30,7 @@ class _ProfilState extends State<Profil> {
   @override
   void initState() {
     super.initState();
-    _setName();
+    _setPrefs();
   }
 
   Future<String?> _getPrefsName() async {
@@ -44,7 +44,7 @@ class _ProfilState extends State<Profil> {
     return surname;
   }
 
-  void _setName() async {
+  void _setPrefs() async {
     String? prefsName = await _getPrefsName();
     String? prefsSurname = await _getPrefsSurname();
     setState(() {

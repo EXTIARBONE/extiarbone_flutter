@@ -20,18 +20,27 @@ Future<String?> _getPrefs() async {
   return name;
 }
 
+Future<String?> _getPrefsScore() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String? score = prefs.getString('score');
+  return score;
+}
+
 class _EventState extends State<Event> {
   late String name = '';
+  late String score = '';
   @override
   void initState() {
     super.initState();
-    _setName();
+    _setPrefs();
   }
 
-  void _setName() async {
+  void _setPrefs() async {
     String? prefsName = await _getPrefs();
+    String? prefsScore = await _getPrefsScore();
     setState(() {
       name = prefsName ?? '';
+      score = prefsScore ?? '';
     });
     print("name : $name");
   }
@@ -74,7 +83,7 @@ class _EventState extends State<Event> {
                 ),
               ),
               Text(
-                "0 points",
+                "$score points",
                 style: GoogleFonts.montserrat(
                   fontSize: 20,
                   color: const Color(0xFF5EB09C),
