@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_extiarbonne/Services/api_services.dart';
 import 'package:flutter_extiarbonne/pages/home.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -12,6 +15,18 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   String _email = '';
   String _password = '';
+
+  void _login(String email, String password) async {
+    /* await ApiServices.fetchDataLogin(email, password);
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Connecté')),
+    ); */
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => Home()),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +56,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
               SizedBox(height: 16.0),
               TextFormField(
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Mot de passe',
                   border: OutlineInputBorder(),
                 ),
@@ -59,12 +74,22 @@ class _LoginPageState extends State<LoginPage> {
               SizedBox(height: 16.0),
               ElevatedButton(
                 onPressed: () {
-                  Home();
-                  /* if (_formKey.currentState!.validate()) {
+                  if (_formKey.currentState!.validate()) {
                     _formKey.currentState!.save();
-                  } */
+                    _login(_email, _password);
+                  }
                 },
-                child: Text('Se connecter'),
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(
+                    const Color(0xFF5EB09C),
+                  ),
+                ),
+                child: Text(
+                  "Se connecter",
+                  style: GoogleFonts.montserrat(
+                    fontSize: 20,
+                  ),
+                ),
               ),
             ],
           ),

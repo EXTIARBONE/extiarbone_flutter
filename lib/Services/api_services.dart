@@ -1,8 +1,25 @@
 import 'dart:convert';
 import 'package:flutter_extiarbonne/Services/user.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ApiServices {
+  static const _urlApi = "https://extiarbone-back.azurewebsites.net";
+
+  static Future<void> fetchDataLogin(email, password) async {
+    final response = await http.get(Uri.parse('$_urlApi/token'));
+    if (response.statusCode == 200) {
+      final jsonResponse = json.decode(response.body);
+      String token = jsonResponse['data'];
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setString('token', token);
+    } else {
+      //throw Exception('Erreur de connexion');
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setString('token', "azerty");
+    }
+  }
+
   static Future<List<User>> getiosUsers() async {
     final response = await http.get(
       Uri.parse("https://democracity-api.herokuapp.com/androidusers"),

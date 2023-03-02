@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:flutter_extiarbonne/pages/login.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Profil extends StatefulWidget {
@@ -19,10 +20,13 @@ class _ProfilState extends State<Profil> {
           const SizedBox(height: 70),
           Row(
             children: [
-              SizedBox(width: 10,),
+              SizedBox(
+                width: 10,
+              ),
               Container(
-                child:  Text("Nicolas Lacoste",
-                style: GoogleFonts.montserrat(
+                child: Text(
+                  "Nicolas Lacoste",
+                  style: GoogleFonts.montserrat(
                     fontSize: 30,
                     fontWeight: FontWeight.bold,
                   ),
@@ -103,10 +107,10 @@ class _ProfilState extends State<Profil> {
                     ),
                     child: Row(
                       children: const [
-                         SizedBox(width: 10),
-                         Text("Mon historique de points"),
-                         SizedBox(width: 185),
-                         Icon(Icons.keyboard_arrow_right),
+                        SizedBox(width: 10),
+                        Text("Mon historique de points"),
+                        SizedBox(width: 185),
+                        Icon(Icons.keyboard_arrow_right),
                       ],
                     ),
                   ))),
@@ -115,7 +119,10 @@ class _ProfilState extends State<Profil> {
           ),
           ElevatedButton(
             onPressed: () {
-              // code à exécuter lorsque le bouton est cliqué
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => LoginPage()),
+              );
             },
             style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all<Color>(
