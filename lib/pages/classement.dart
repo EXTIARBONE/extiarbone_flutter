@@ -19,6 +19,40 @@ class _ClassementState extends State<Classement>
   late TabController _tabController;
 
   bool _isLoading = true;
+  late String role = "";
+  late String name = "";
+  late bool isAdmin = false;
+
+  Future<String?> _getPrefsName() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? name = prefs.getString('name');
+    return name;
+  }
+
+  Future<String?> _getPrefsRole() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? role = prefs.getString('role');
+    print("MON ROLE: $role");
+    if (role == "ADMIN") {
+      setState(() {
+        isAdmin = true;
+      });
+    } else {
+      setState(() {
+        isAdmin = false;
+      });
+    }
+    return role;
+  }
+
+  void _setPrefs() async {
+    String? prefsName = await _getPrefsName();
+    String? prefsRole = await _getPrefsRole();
+    setState(() {
+      name = prefsName ?? '';
+      role = prefsRole ?? '';
+    });
+  }
 
   String _points = '0';
   late DateTime now;
@@ -32,6 +66,7 @@ class _ClassementState extends State<Classement>
     super.initState();
     _loadData();
     _fetchDataUserClassement();
+    _setPrefs();
     _tabController = TabController(length: 2, vsync: this);
     now = DateTime.now();
     endOfMonth = DateTime(now.year, now.month + 1, 0);
@@ -220,28 +255,48 @@ class _ClassementState extends State<Classement>
               padding: const EdgeInsets.all(10),
               child: Column(
                 children: [
-                  RichText(
-                    text: TextSpan(
-                      children: [
-                        const TextSpan(
-                          text: 'Vous cumulez ',
-                          style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                          ),
-                        ),
-                        TextSpan(
-                          text: '$_points points', // Le texte dynamique
-                          style: const TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xFF5EB09C),
-                          ),
-                        ),
-                      ],
+                  if (isAdmin) // Vérifier si isAdmin est vrai
+                    const Text(
+                      "En tant qu'administrateur, vous n'avez pas de points",
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
                     ),
-                  ),
+                  if (isAdmin) // Vérifier si isAdmin est faux et _points est supérieur à zéro
+                    RichText(
+                      text: TextSpan(
+                        children: [
+                          const TextSpan(
+                            text: 'Vous cumulez ',
+                            style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),
+                          ),
+                          TextSpan(
+                            text: '$_points points', // Le texte dynamique
+                            style: const TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFF5EB09C),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  if (isAdmin &&
+                      _points ==0) // Vérifier si isAdmin est faux et _points est égal à zéro
+                    const Text(
+                      "Vous n'avez pas encore de points",
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                    ),
                   const SizedBox(height: 10),
                   Text(
                     "Se termine le $_date",
@@ -256,7 +311,7 @@ class _ClassementState extends State<Classement>
           const SizedBox(height: 50),
           TabBar(
             controller: _tabController,
-            indicatorColor: Color(0xFF5EB09C),
+            indicatorColor: const Color(0xFF5EB09C),
             tabs: const [
               Tab(
                 child: Text(
@@ -299,7 +354,7 @@ class _ClassementState extends State<Classement>
                               ),
                             ],
                           ),
-                          padding: EdgeInsets.all(10),
+                          padding: const EdgeInsets.all(10),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
