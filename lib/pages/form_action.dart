@@ -7,7 +7,7 @@ class AddActionPage extends StatefulWidget {
 }
 
 class _AddActionPageState extends State<AddActionPage> {
-  late String selectorType = "";
+  late String selectorType = "MediumDieselCar";
   late String selectedType = "";
   late String title = "";
   late num distance = 0;
@@ -88,16 +88,13 @@ class _AddActionPageState extends State<AddActionPage> {
                 ),
                 DropdownButton<String>(
                   value: selectorType,
+                  hint: const Text('Sélectionnez un véhicule'),
                   onChanged: (String? newValue) {
                     setState(() {
                       selectorType = newValue!;
                     });
                   },
                   items: <String>[
-                    '',
-                    'Type 1',
-                    'Type 2',
-                    'Type 3',
                     'MediumDieselCar',
                     'MediumHybridCar',
                     'MediumDieselVan',
