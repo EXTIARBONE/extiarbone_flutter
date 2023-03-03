@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:flutter_extiarbonne/pages/historique.dart';
 import 'package:flutter_extiarbonne/pages/home.dart';
 import 'package:flutter_extiarbonne/pages/login.dart';
 import 'package:flutter_extiarbonne/widget/loyality_card.dart';
@@ -83,6 +84,10 @@ class _ProfilState extends State<Profil> {
             padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
             child: GestureDetector(
                 onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Hostorique()),
+                  );
                   // code à exécuter lorsque le conteneur est cliqué
                   print("OOOOOo");
                 },
