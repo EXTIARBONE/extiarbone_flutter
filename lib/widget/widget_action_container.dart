@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_extiarbonne/Services/api_services.dart';
 import 'package:flutter_extiarbonne/widget/action_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -68,7 +69,10 @@ class ActionContainer extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 ElevatedButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    ApiServices.updatePointsUser(
+                                        actionWidget.points);
+                                  },
                                   style: ButtonStyle(
                                     backgroundColor:
                                         MaterialStateProperty.all<Color>(

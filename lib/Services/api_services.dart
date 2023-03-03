@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter_extiarbonne/Services/reward.dart';
 import 'package:flutter_extiarbonne/Services/user.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -72,56 +73,53 @@ class ApiServices {
     }
   }
 
-  static Future<List<User>> getiosUsers() async {
-    final response = await http.get(
-      Uri.parse("https://democracity-api.herokuapp.com/androidusers"),
-    );
-    if (response.statusCode != 200) {
-      throw Error();
-    }
-    final jsonBody = json.decode(response.body);
-    final List<User> users =
-        (jsonBody as List).map((user) => User.fromJson(user)).toList();
-
-    return users;
-  }
-
-  static Future<List<User>> getFavorites() async {
-    final response = await http.get(
-      Uri.parse("https://democracity-api.herokuapp.com/favorites"),
-    );
+  static fetchD() async {
+    final response = await http.get(Uri.parse(
+      '$_urlApi/reward/getAllRewardsAvailable',
+    ));
     if (response.statusCode == 200) {
-      final jsonBody = json.decode(response.body);
-      final List<User> users =
-          (jsonBody as List).map((user) => User.fromJson(user)).toList();
-      return users;
+      final jsonResponse = json.decode(response.body);
+      List<dynamic> data = jsonResponse["rewards"];
     } else {
-      throw Error();
+      throw Exception('Erreur lors du chargements des lots');
     }
   }
 
-  static Future<List> getUserCount() async {
-    final response = await http.get(
-      Uri.parse("https://democracity-api.herokuapp.com/count"),
-    );
-    if (response.statusCode != 200) {
-      throw Error();
+  static addAction(num distance, String vehicule) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString('token');
+    final response = await http.post(Uri.parse('$_urlApi/carbonScore/'),
+        headers: {
+          "Authorization": "Bearer $token",
+        },
+        body: jsonEncode(
+            <String, dynamic>{"distance": distance, "vehicle": vehicule}));
+    print(distance);
+    print(vehicule);
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      final jsonResponse = json.decode(response.body);
+      List<dynamic> data = jsonResponse;
+    } else {
+      throw Exception('Erreur lors de la création de l\'action');
     }
-    final jsonBody = json.decode(response.body);
-    final List userCount = (jsonBody as List);
-    return userCount;
   }
 
-  static Future<bool> addFavorite(String username) async {
-    final http.Response response = await http.put(
-      (Uri.parse('https://democracity-api.herokuapp.com/favorite/$username')),
-      headers: <String, String>{
-        'Content-Type': 'application/json',
-      },
-    );
-    var data = response.body;
-    print(data);
-
-    return response.statusCode == 200;
+  static updatePointsUser(num points) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString('token');
+    String? userId = prefs.getString('userId');
+    final response = await http.put(Uri.parse('$_urlApi/user/$userId'),
+        headers: {
+          "Authorization": "Bearer $token",
+          'Content-Type': 'application/json'
+        },
+        body: jsonEncode(<String, num>{"score": points}));
+    if (response.statusCode == 200) {
+      final jsonResponse = json.decode(response.body);
+      List<dynamic> data = jsonResponse;
+    } else {
+      throw Exception('Erreur lors de la création de l\'action');
+    }
   }
 }
