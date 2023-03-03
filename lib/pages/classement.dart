@@ -45,16 +45,24 @@ class _ClassementState extends State<Classement>
     return role;
   }
 
+  Future<int?> _getPrefsScore() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int? score = prefs.getInt('score');
+    return score;
+  }
+
   void _setPrefs() async {
     String? prefsName = await _getPrefsName();
     String? prefsRole = await _getPrefsRole();
+    int? prefsScore = await _getPrefsScore();
     setState(() {
       name = prefsName ?? '';
       role = prefsRole ?? '';
+      _score = prefsScore ?? 0;
     });
   }
 
-  String _points = '0';
+  late int _score = 0;
   late DateTime now;
   late DateTime endOfMonth;
   String _date = '';
@@ -79,20 +87,6 @@ class _ClassementState extends State<Classement>
     setState(() {
       _isLoading = false;
     });
-  }
-
-  void _fetchData() async {
-    final response =
-        await http.get(Uri.parse('https://api.example.com/classement'));
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body);
-      setState(() {
-        _points = data['points'];
-        _date = data['date'];
-      });
-    } else {
-      throw Exception('Failed to load data');
-    }
   }
 
   void _fetchDataUserClassement() async {
@@ -277,7 +271,7 @@ class _ClassementState extends State<Classement>
                             ),
                           ),
                           TextSpan(
-                            text: '$_points points', // Le texte dynamique
+                            text: '$_score points', // Le texte dynamique
                             style: const TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.bold,
@@ -287,26 +281,24 @@ class _ClassementState extends State<Classement>
                         ],
                       ),
                     ),
-                  if (isAdmin &&
-                      _points ==0) 
-                        const Text(
-                        "Vous n'avez pas encore de points",
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ),
+                  if (isAdmin && _score == 0)
+                    const Text(
+                      "Vous n'avez pas encore de points",
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
                       ),
-                      const SizedBox(height: 10),
-                      Text(
-                        "Se termine le $_date",
-                        style: const TextStyle(
-                          fontSize: 16,
-                        ),
-                      ),
-                    
-                    // Vérifier si isAdmin est faux et _points est égal à zéro
-                    
+                    ),
+                  const SizedBox(height: 10),
+                  Text(
+                    "Se termine le $_date",
+                    style: const TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+
+                  // Vérifier si isAdmin est faux et _points est égal à zéro
                 ],
               ),
             ),
@@ -424,7 +416,6 @@ class _ClassementState extends State<Classement>
                       }
 
                       return Container(
-      
                         margin: const EdgeInsets.symmetric(
                             horizontal: 30, vertical: 40),
                         decoration: BoxDecoration(

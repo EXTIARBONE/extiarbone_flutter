@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'package:flutter_extiarbonne/Services/reward.dart';
-import 'package:flutter_extiarbonne/Services/user.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -16,6 +14,16 @@ class LoginException implements Exception {
 }
 
 class ApiServices {
+  static Map mapTransport = {
+    "Voiture diesel": 'dieselCar',
+    "Voiture hybride": 'hybridCar',
+    "Van diesel": 'vanDiesel',
+    "Voiture au pétrole": 'petrolCar',
+    "Taxi": 'Taxi',
+    "Bus": 'Bus',
+    "Métro": 'Metro',
+  };
+
   static const _urlApi = "https://extiarbone-back.azurewebsites.net";
 
   static Future<void> fetchDataLogin(String email, String password) async {
@@ -31,7 +39,7 @@ class ApiServices {
       final surname = jsonResponse['surname'];
       final mail = jsonResponse['mail'];
       final userId = jsonResponse['userId'];
-      final score = jsonResponse['score'].toString();
+      final score = jsonResponse['score'];
       final role = jsonResponse['role'];
       final prefs = await SharedPreferences.getInstance();
       prefs.setString('token', token);
@@ -39,7 +47,7 @@ class ApiServices {
       prefs.setString('surname', surname);
       prefs.setString('mail', mail);
       prefs.setString('userId', userId);
-      prefs.setString('score', score);
+      prefs.setInt('score', score);
       prefs.setString('role', role);
     } else {
       String message = 'Une erreur s\'est produite lors de la connexion.';
@@ -85,21 +93,21 @@ class ApiServices {
     }
   }
 
-  static addAction(num distance, String vehicule) async {
+  static Future<String> addAction(num distance, String vehicule) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString('token');
     final response = await http.post(Uri.parse('$_urlApi/carbonScore/'),
         headers: {
           "Authorization": "Bearer $token",
+          'Content-Type': 'application/json'
         },
-        body: jsonEncode(
-            <String, dynamic>{"distance": distance, "vehicle": vehicule}));
-    print(distance);
-    print(vehicule);
-    print(response.statusCode);
+        body: jsonEncode(<String, dynamic>{
+          "distance": distance,
+          "vehicle": mapTransport[vehicule]
+        }));
     if (response.statusCode == 200) {
       final jsonResponse = json.decode(response.body);
-      List<dynamic> data = jsonResponse;
+      return jsonResponse["score"]["carbon"];
     } else {
       throw Exception('Erreur lors de la création de l\'action');
     }
@@ -109,6 +117,8 @@ class ApiServices {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString('token');
     String? userId = prefs.getString('userId');
+    int? score = prefs.getInt('score');
+    points += score as num;
     final response = await http.put(Uri.parse('$_urlApi/user/$userId'),
         headers: {
           "Authorization": "Bearer $token",

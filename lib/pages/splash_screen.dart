@@ -26,7 +26,7 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       body: Center(
           child: Image.network(
-              "https://cdn.dribbble.com/users/2973/screenshots/16945757/media/acf5d5a9edec6dcfd22e85b51fb929a1.png?compress=1&resize=400x300&vertical=top") //Image.asset('assets/images/fond.jpeg'),
+              "https://img.freepik.com/premium-vector/green-ecology-logo-design-world-environment_569344-380.jpg?w=2000") //Image.asset('assets/images/fond.jpeg'),
           ),
     );
   }

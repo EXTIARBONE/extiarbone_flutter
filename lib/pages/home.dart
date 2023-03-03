@@ -38,6 +38,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
       _selectedIndex = index;
     });
   }
+
   void initState() {
     super.initState();
     _setPrefs();
@@ -52,7 +53,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   Future<String?> _getPrefsRole() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? role = prefs.getString('role');
-    print("MON ROLE: $role");
     if (role == "ADMIN") {
       setState(() {
         isAdmin = true;

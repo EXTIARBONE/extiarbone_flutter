@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
@@ -6,6 +8,7 @@ import 'package:flutter_extiarbonne/widget/action_widget.dart';
 import 'package:flutter_extiarbonne/widget/widget_action_container.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
 import 'form_action.dart';
 
@@ -22,15 +25,16 @@ Future<String?> _getPrefs() async {
   return name;
 }
 
-Future<String?> _getPrefsScore() async {
+Future<int?> _getPrefsScore() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  String? score = prefs.getString('score');
+  int? score = prefs.getInt('score');
   return score;
 }
 
 class _EventState extends State<Event> {
   late String name = '';
-  late String score = '';
+  late int score = 0;
+  List<ActionWidget> _actionsWidget = [];
 
   @override
   void initState() {
@@ -40,11 +44,38 @@ class _EventState extends State<Event> {
 
   void _setPrefs() async {
     String? prefsName = await _getPrefs();
-    String? prefsScore = await _getPrefsScore();
+    int? prefsScore = await _getPrefsScore();
     setState(() {
+      _fetchDataReward();
       name = prefsName ?? '';
-      score = prefsScore ?? '';
+      score = prefsScore ?? 0;
     });
+  }
+
+  void _fetchDataReward() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString('token');
+    final response = await http.get(
+      Uri.parse('https://extiarbone-back.azurewebsites.net/action'),
+      headers: {
+        "Authorization": "Bearer $token",
+      },
+    );
+    if (response.statusCode == 200) {
+      final jsonResponse = json.decode(response.body);
+      List<dynamic> data = jsonResponse;
+      List<ActionWidget> _actionsWidget = data
+          .map((element) => ActionWidget(
+              title: element['title'],
+              points: element['amountToWin'],
+              url: "test"))
+          .toList();
+      setState(() {
+        this._actionsWidget = _actionsWidget;
+      });
+    } else {
+      throw Exception('Erreur lors du chargements des actions');
+    }
   }
 
   Widget build(BuildContext context) {
@@ -147,28 +178,7 @@ class _EventState extends State<Event> {
           Expanded(
             child: SingleChildScrollView(
               child: Column(
-                children: [
-                  ActionContainer(
-                    actionsWidget: [
-                      ActionWidget(
-                          title: "Transport en commun",
-                          points: 12,
-                          url: "transport"),
-                      ActionWidget(
-                          title: "Transport en commun",
-                          points: 12,
-                          url: "test"),
-                      ActionWidget(
-                          title: "Transport en commun",
-                          points: 12,
-                          url: "vélo"),
-                      ActionWidget(
-                          title: "Transport en commun",
-                          points: 12,
-                          url: "transport")
-                    ],
-                  )
-                ],
+                children: [ActionContainer(actionsWidget: _actionsWidget)],
               ),
             ),
           ),
@@ -178,7 +188,7 @@ class _EventState extends State<Event> {
   }
 }
 
-void _showBottomSheet(BuildContext context) {
+/* void _showBottomSheet(BuildContext context) {
   showModalBottomSheet(
     context: context,
     builder: (BuildContext context) {
@@ -186,3 +196,4 @@ void _showBottomSheet(BuildContext context) {
     },
   );
 }
+ */
