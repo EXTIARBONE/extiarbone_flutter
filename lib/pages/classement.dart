@@ -424,8 +424,9 @@ class _ClassementState extends State<Classement>
                       }
 
                       return Container(
+      
                         margin: const EdgeInsets.symmetric(
-                            horizontal: 30, vertical: 10),
+                            horizontal: 30, vertical: 40),
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(5),
