@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_extiarbonne/Services/api_services.dart';
 
@@ -7,7 +8,7 @@ class AddActionPage extends StatefulWidget {
 }
 
 class _AddActionPageState extends State<AddActionPage> {
-  late String selectorType = "MediumDieselCar";
+  late String selectorType = "Voiture diesel";
   late String selectedType = "";
   late String title = "";
   late num distance = 0;
@@ -72,7 +73,8 @@ class _AddActionPageState extends State<AddActionPage> {
                       },
                       selected: selectedType == 'Type 3',
                     ),
-                    if (selectedType.isNotEmpty) ...[
+                    if (selectedType.isNotEmpty &&
+                        selectedType == "trajet") ...[
                       const SizedBox(height: 30),
                       const Text(
                         'Informations sur l\'action',
@@ -84,7 +86,7 @@ class _AddActionPageState extends State<AddActionPage> {
                       const SizedBox(height: 30),
                       DropdownButtonFormField<String>(
                         value: selectorType,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           border: OutlineInputBorder(),
                           labelText: 'Sélectionner le type de véhicule',
                         ),
@@ -99,13 +101,13 @@ class _AddActionPageState extends State<AddActionPage> {
                           });
                         },
                         items: <String>[
-                          'MediumDieselCar',
-                          'MediumHybridCar',
-                          'MediumDieselVan',
-                          'MediumPetrolCar',
-                          'Taxi',
-                          'ClassicBus',
-                          'Subway',
+                          "Voiture diesel",
+                          "Voiture hybride",
+                          "Van diesel",
+                          "Voiture au pétrole",
+                          "Taxi",
+                          "Bus",
+                          "Métro",
                         ].map<DropdownMenuItem<String>>((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
@@ -134,12 +136,21 @@ class _AddActionPageState extends State<AddActionPage> {
                             const Color(0xFF5EB09C),
                           ),
                         ),
-                        onPressed: () {
-                          ApiServices.addAction(distance, selectorType);
-                          print(selectorType);
-                          print(selectedType);
-                          print(distance);
-                          //Navigator.pop(context);
+                        onPressed: () async {
+                          var result = await ApiServices.addAction(
+                              distance, selectorType);
+                          print(result);
+                          result = generateMessageCarbon(result);
+                          result =
+                              'Vous avez généré $result kg de cO2 avec ce trajet';
+                          // ignore: use_build_context_synchronously
+                          showDialog<String>(
+                            context: context,
+                            builder: (BuildContext context) => AlertDialog(
+                              title: Text('Bilan carbone'),
+                              content: Text(result),
+                            ),
+                          );
                         },
                         child: const Text('Enregistrer'),
                       ),
@@ -150,6 +161,13 @@ class _AddActionPageState extends State<AddActionPage> {
             ],
           )),
     );
+  }
+
+  generateMessageCarbon(String text) {
+    RegExp regExp = new RegExp(r"[-+]?\d*\.?\d+");
+    Match match = regExp.firstMatch(text)!;
+    double number = double.parse(match.group(0)!);
+    return number.toStringAsFixed(2);
   }
 
   Widget _buildCard({
