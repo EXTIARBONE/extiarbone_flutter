@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_extiarbonne/pages/splash_screen.dart';
 import './pages/login.dart';
 
 void main() => runApp(const MyApp());
@@ -29,9 +30,9 @@ class MyStatefulWidget extends StatefulWidget {
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
         body: Center(
-      child: LoginPage(),
+      child: SplashScreen(),
     ));
   }
 }
