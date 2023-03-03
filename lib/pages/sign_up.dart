@@ -3,9 +3,9 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_extiarbonne/pages/home.dart';
 import 'package:flutter_extiarbonne/pages/login.dart';
+import 'package:flutter_extiarbonne/widget/clickable_text.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_extiarbonne/Services/api_services.dart';
-
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -20,7 +20,6 @@ class _SignUpState extends State<SignUp> {
   String _surname = '';
   String _mail = '';
   String _password = '';
-
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,12 +66,10 @@ class _SignUpState extends State<SignUp> {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                       child: TextField(
-                        onChanged: (
-                          (String name){
-                            _name = name;
-                            print(_name);
-                          }
-                        ),
+                        onChanged: ((String name) {
+                          _name = name;
+                          print(_name);
+                        }),
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
@@ -84,7 +81,6 @@ class _SignUpState extends State<SignUp> {
                         ),
                       ),
                     ),
-                    
                     SizedBox(height: 10),
                     Row(
                       children: const [
@@ -97,12 +93,10 @@ class _SignUpState extends State<SignUp> {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                       child: TextField(
-                         onChanged: (
-                          (String surname){
-                            _surname = surname;
-                            print(_surname);
-                          }
-                        ),
+                        onChanged: ((String surname) {
+                          _surname = surname;
+                          print(_surname);
+                        }),
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
@@ -126,12 +120,10 @@ class _SignUpState extends State<SignUp> {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                       child: TextField(
-                         onChanged: (
-                          (String mail){
-                            _mail = mail;
-                            print(_mail);
-                          }
-                        ),
+                        onChanged: ((String mail) {
+                          _mail = mail;
+                          print(_mail);
+                        }),
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
@@ -151,17 +143,14 @@ class _SignUpState extends State<SignUp> {
                         SizedBox(),
                       ],
                     ),
-                    
                     SizedBox(height: 10),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                       child: TextField(
-                         onChanged: (
-                          (String password){
-                            _password = password;
-                            print(_password);
-                          }
-                        ),
+                        onChanged: ((String password) {
+                          _password = password;
+                          print(_password);
+                        }),
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
@@ -176,8 +165,7 @@ class _SignUpState extends State<SignUp> {
                     SizedBox(height: 30),
                     ElevatedButton(
                       onPressed: () {
-                          print("ok"+_name +_surname);
-                          signup(_name, _surname, _mail, _password);
+                        signup(_name, _surname, _mail, _password);
                       },
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all<Color>(
@@ -194,25 +182,17 @@ class _SignUpState extends State<SignUp> {
                   ],
                 ),
               ),
-              SizedBox(height: 30),
-              ElevatedButton(
-                style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                          const Color(0xFF5EB09C),
-                        ),
-                      ),
-                onPressed: () {
-                  /* if (_formKey.currentState!.validate()) {
-                    _formKey.currentState!.save();
-                  } */
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => LoginPage()),
-                    );
-                 
-                },
-                child: Text("Se connecter"),
-              ),
+              const SizedBox(height: 30),
+              const Text("J'ai déjà un compte',"),
+              ClickableText(
+                  text: "se connecter",
+                  onTap: () => {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const LoginPage()),
+                        )
+                      }),
             ],
           ),
         ),
@@ -221,8 +201,7 @@ class _SignUpState extends State<SignUp> {
   }
 }
 
-
 void signup(String name, String surname, String mail, String password) async {
-    await ApiServices.signUp(name, surname, mail, password);
-    print("compte cree");
-  }
+  await ApiServices.signUp(name, surname, mail, password);
+  print("compte cree");
+}

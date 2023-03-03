@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_extiarbonne/pages/splash_screen.dart';
 import './pages/login.dart';
 
 void main() => runApp(const MyApp());
@@ -14,6 +15,7 @@ class MyApp extends StatelessWidget {
       title: _title,
       home: const MyStatefulWidget(),
       theme: ThemeData(fontFamily: 'Montserrat'),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
@@ -30,7 +32,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Center(
-      child: LoginPage(),
+      child: SplashScreen(),
     ));
   }
 }

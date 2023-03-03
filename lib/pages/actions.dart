@@ -7,6 +7,8 @@ import 'package:flutter_extiarbonne/widget/widget_action_container.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'form_action.dart';
+
 class Event extends StatefulWidget {
   const Event({super.key});
 
@@ -29,6 +31,7 @@ Future<String?> _getPrefsScore() async {
 class _EventState extends State<Event> {
   late String name = '';
   late String score = '';
+
   @override
   void initState() {
     super.initState();
@@ -42,7 +45,6 @@ class _EventState extends State<Event> {
       name = prefsName ?? '';
       score = prefsScore ?? '';
     });
-    print("name : $name");
   }
 
   Widget build(BuildContext context) {
@@ -102,7 +104,11 @@ class _EventState extends State<Event> {
               ),
               ElevatedButton(
                 onPressed: () {
-                  _showBottomSheet(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => AddActionPage()),
+                  );
+                  //_showBottomSheet(context);
                 },
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all<Color>(

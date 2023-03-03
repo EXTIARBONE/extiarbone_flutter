@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_extiarbonne/Services/api_services.dart';
 import 'package:flutter_extiarbonne/pages/home.dart';
+import 'package:flutter_extiarbonne/widget/clickable_text.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_extiarbonne/pages/sign_up.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -35,11 +36,22 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _login(String email, String password) async {
-    await ApiServices.fetchDataLogin(email, password);
-    /* ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(text)),
-    ); */
-    _checkLogin();
+    try {
+      await ApiServices.fetchDataLogin(email, password);
+      _checkLogin();
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e.toString())),
+      );
+    }
+
+    try {
+      await ApiServices.fetchDataLogin(email, password);
+    } on LoginException catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e.toString())),
+      );
+    }
   }
 
   @override
@@ -136,22 +148,15 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 const SizedBox(height: 30),
-                ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            minimumSize: const Size.fromHeight(40),
-                            backgroundColor: const Color(0xFF5EB09C),
-                          ),
-                          onPressed: () {
-                            Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const SignUp()),
-                    );
-                          },
-                          child: Text(
-                            "S'inscrire",
-                          style: GoogleFonts.montserrat(fontSize: 20),
-                    ),
-                  ),
+                const Text("Je n'ai pas de compte,"),
+                ClickableText(
+                    text: "m'inscrire",
+                    onTap: () => {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => SignUp()),
+                          )
+                        }),
               ],
             ),
           ),
