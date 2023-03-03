@@ -63,11 +63,11 @@ class _ProfilState extends State<Profil> {
           Row(
             children: [
               SizedBox(
-                width: 10,
+                width: 40,
               ),
               Container(
                 child: Text(
-                  "$name $surname",
+                  "$name $surname ",
                   style: GoogleFonts.montserrat(
                     fontSize: 30,
                     fontWeight: FontWeight.bold,
@@ -153,9 +153,30 @@ class _ProfilState extends State<Profil> {
                       ],
                     ),
                   ))),
-          const SizedBox(
-            height: 200,
+                  SizedBox(height:30),
+                  Text("Votre consommation carbonne du mois:",
+                  style: GoogleFonts.montserrat(
+              fontSize: 17,
+              fontWeight: FontWeight.bold,
+            ),
           ),
+          SizedBox(height: 30,),
+          Text(
+            "123 ",
+            style: GoogleFonts.montserrat(
+              fontSize: 17,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          Text("Kilogrammes équivalent CO2",
+            style: GoogleFonts.montserrat(
+              fontSize: 17,
+              fontWeight: FontWeight.bold,
+            ),),
+          const SizedBox(
+            height: 60,
+          ),
+          
           Column(
             children: [
               LoyaltyCard(
@@ -165,7 +186,7 @@ class _ProfilState extends State<Profil> {
             ],
           ),
           const SizedBox(
-            height: 100,
+            height: 80,
           ),
           ElevatedButton(
             onPressed: () {
@@ -191,7 +212,8 @@ class _ProfilState extends State<Profil> {
                 ),
               ],
             ),
-          )
+          ),
+          SizedBox(height: 10,)
         ],
       ),
     );
