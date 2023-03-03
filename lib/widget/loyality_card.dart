@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class LoyaltyCard extends StatelessWidget {
   final String clientName;
@@ -18,25 +19,32 @@ class LoyaltyCard extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Container(
           width: 290,
+          height: 170,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
+               Text(
                 'Carte de fidélité',
-                style: TextStyle(
-                  fontSize: 18,
+                style: GoogleFonts.montserrat(
+                  fontSize: 25,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               const SizedBox(height: 16),
               Text(
                 '$clientName',
-                style: TextStyle(fontSize: 16),
+                style: GoogleFonts.montserrat(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                  ),
               ),
               const SizedBox(height: 8),
               Text(
                 'Solde de points : $loyaltyPoints',
-                style: TextStyle(fontSize: 16),
+                style: GoogleFonts.montserrat(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                  ),
               ),
             ],
           ),
