@@ -27,7 +27,7 @@ class _AddActionPageState extends State<AddActionPage> {
         backgroundColor: const Color(0xFF5EB09C),
       ),
       body: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(30),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -38,7 +38,7 @@ class _AddActionPageState extends State<AddActionPage> {
                   fontSize: 18,
                 ),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 20),
               Expanded(
                 child: ListView(
                   children: [
@@ -47,7 +47,6 @@ class _AddActionPageState extends State<AddActionPage> {
                       description: 'Description du type 1',
                       onTap: () {
                         setState(() {
-                          // Enregistrer le choix de l'utilisateur et afficher la partie suivante
                           selectedType = 'trajet';
                         });
                       },
@@ -58,7 +57,6 @@ class _AddActionPageState extends State<AddActionPage> {
                       description: 'After work ou soirée chill',
                       onTap: () {
                         setState(() {
-                          // Enregistrer le choix de l'utilisateur et afficher la partie suivante
                           selectedType = 'event';
                         });
                       },
@@ -74,71 +72,81 @@ class _AddActionPageState extends State<AddActionPage> {
                       },
                       selected: selectedType == 'Type 3',
                     ),
+                    if (selectedType.isNotEmpty) ...[
+                      const SizedBox(height: 30),
+                      const Text(
+                        'Informations sur l\'action',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
+                      ),
+                      const SizedBox(height: 30),
+                      DropdownButtonFormField<String>(
+                        value: selectorType,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: 'Sélectionner le type de véhicule',
+                        ),
+                        isExpanded: true,
+                        icon: const Padding(
+                            padding: EdgeInsets.only(left: 20),
+                            child: Icon(Icons.arrow_circle_down_sharp)),
+                        hint: const Text('Sélectionnez un véhicule'),
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            selectorType = newValue!;
+                          });
+                        },
+                        items: <String>[
+                          'MediumDieselCar',
+                          'MediumHybridCar',
+                          'MediumDieselVan',
+                          'MediumPetrolCar',
+                          'Taxi',
+                          'ClassicBus',
+                          'Subway',
+                        ].map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                      ),
+                      const SizedBox(height: 20),
+                      TextField(
+                        decoration: const InputDecoration(
+                          labelText: 'Distance du trajet (en km)',
+                          border: OutlineInputBorder(),
+                        ),
+                        keyboardType: TextInputType.number,
+                        onChanged: (value) {
+                          num? distanceValue = num.tryParse(value);
+                          if (distanceValue != null) {
+                            distance = distanceValue;
+                          }
+                        },
+                      ),
+                      const SizedBox(height: 16),
+                      ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                            const Color(0xFF5EB09C),
+                          ),
+                        ),
+                        onPressed: () {
+                          ApiServices.addAction(distance, selectorType);
+                          print(selectorType);
+                          print(selectedType);
+                          print(distance);
+                          //Navigator.pop(context);
+                        },
+                        child: const Text('Enregistrer'),
+                      ),
+                    ],
                   ],
                 ),
               ),
-              if (selectedType.isNotEmpty) ...[
-                const SizedBox(height: 16),
-                const Text(
-                  'Informations sur l\'action',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
-                  ),
-                ),
-                DropdownButton<String>(
-                  value: selectorType,
-                  hint: const Text('Sélectionnez un véhicule'),
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      selectorType = newValue!;
-                    });
-                  },
-                  items: <String>[
-                    'MediumDieselCar',
-                    'MediumHybridCar',
-                    'MediumDieselVan',
-                    'MediumPetrolCar',
-                    'Taxi',
-                    'ClassicBus',
-                    'Subway',
-                  ].map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                ),
-                SizedBox(height: 16),
-                TextField(
-                  decoration: const InputDecoration(
-                    labelText: 'Distance du trajet (en km)',
-                  ),
-                  keyboardType: TextInputType.number,
-                  onChanged: (value) {
-                    num? distanceValue = num.tryParse(value);
-                    if (distanceValue != null) {
-                      distance = distanceValue;
-                    }
-                  },
-                ),
-                const SizedBox(height: 16),
-                ElevatedButton(
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(
-                      const Color(0xFF5EB09C),
-                    ),
-                  ),
-                  onPressed: () {
-                    ApiServices.addAction(distance, selectorType);
-                    print(selectorType);
-                    print(selectedType);
-                    print(distance);
-                    //Navigator.pop(context);
-                  },
-                  child: const Text('Enregistrer'),
-                ),
-              ],
             ],
           )),
     );
