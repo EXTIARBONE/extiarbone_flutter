@@ -264,7 +264,7 @@ class _ClassementState extends State<Classement>
                         color: Colors.black,
                       ),
                     ),
-                  if (isAdmin) // Vérifier si isAdmin est faux et _points est supérieur à zéro
+                  if (!isAdmin) // Vérifier si isAdmin est faux et _points est supérieur à zéro
                     RichText(
                       text: TextSpan(
                         children: [
@@ -288,22 +288,25 @@ class _ClassementState extends State<Classement>
                       ),
                     ),
                   if (isAdmin &&
-                      _points ==0) // Vérifier si isAdmin est faux et _points est égal à zéro
-                    const Text(
-                      "Vous n'avez pas encore de points",
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
+                      _points ==0) 
+                        const Text(
+                        "Vous n'avez pas encore de points",
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
                       ),
-                    ),
-                  const SizedBox(height: 10),
-                  Text(
-                    "Se termine le $_date",
-                    style: const TextStyle(
-                      fontSize: 16,
-                    ),
-                  ),
+                      const SizedBox(height: 10),
+                      Text(
+                        "Se termine le $_date",
+                        style: const TextStyle(
+                          fontSize: 16,
+                        ),
+                      ),
+                    
+                    // Vérifier si isAdmin est faux et _points est égal à zéro
+                    
                 ],
               ),
             ),
